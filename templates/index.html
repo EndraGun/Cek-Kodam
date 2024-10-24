@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mythical Creature Finder</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Find Your Mythical Creature</h1>
+
+    <form id="creatureForm">
+        <label for="birth_month">Birth Month (1-12):</label>
+        <input type="number" id="birth_month" name="birth_month" min="1" max="12" required>
+
+        <label for="gender">Gender (male/female):</label>
+        <input type="text" id="gender" name="gender" required>
+
+        <button type="submit">Get Mythical Creature</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#creatureForm').on('submit', function(event) {
+                event.preventDefault();
+
+                var birth_month = $('#birth_month').val();
+                var gender = $('#gender').val();
+
+                $.ajax({
+                    url: '/get-mythical-creature',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        "birth_month": birth_month,
+                        "gender": gender
+                    }),
+                    success: function(response) {
+                        $('#result').html('<h3>Your Mythical Creature</h3>' + 
+                                          '<p><strong>Creature:</strong> ' + response.creature + '</p>' + 
+                                          '<p><strong>Description:</strong> ' + response.description + '</p>');
+                    },
+                    error: function(error) {
+                        $('#result').html('<p style="color:red;">An error occurred: ' + error.responseJSON.error + '</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

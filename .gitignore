@@ -1,0 +1,20 @@
+# Ignore environment variables
+.env
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore virtual environments
+venv/
+.venv/
+myenv/
+.myenv/
+
+# Ignore the requirements.txt if you plan on generating it dynamically, otherwise include it
+# requirements.txt
+
+# Ignore any other OS-specific or IDE-specific files (optional)
+.DS_Store
+.vscode/
